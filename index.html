@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Divine Glow | Luxury Beauty Store</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Mukta:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<link rel="stylesheet" href="style.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="blessing-bar">
+  <span class="blessing-icon-wrap">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/ff/Shri_Swami_Samarth.jpg" alt="Shri Swami Samarth" class="blessing-icon">
+  </span>
+  <span class="blessing-text">| श्री स्वामी समर्थ | भिऊ नकोस मी तुझ्या पाठीशी आहे |</span>
+</div>
+
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
+
+<div class="side-cart" id="sideCart">
+  <div class="cart-head">
+    <h3>Your Cart</h3>
+    <button class="icon-btn" onclick="closeAll()"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="cartItems"></div>
+  <div class="cart-footer">
+    <div class="row"><span>Subtotal</span><span id="subtotal">₹0</span></div>
+    <div class="row"><span>Shipping</span><span>Free</span></div>
+    <div class="row total"><span>Total</span><span id="total">₹0</span></div>
+    <button class="btn primary full" onclick="checkout()">Proceed to Checkout</button>
+  </div>
+</div>
+
+<div class="modal" id="authModal">
+  <div class="modal-card">
+    <div class="modal-top">
+      <h3>Welcome</h3>
+      <button class="icon-btn" onclick="closeAuth()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="tabs">
+      <button class="tab active" onclick="switchAuth('login', this)">Login</button>
+      <button class="tab" onclick="switchAuth('signup', this)">Signup</button>
+    </div>
+    <form class="form" id="authForm" onsubmit="event.preventDefault(); alert('Account action successful'); closeAuth();">
+      <input id="nameField" placeholder="Full Name" style="display:none" />
+      <input type="email" placeholder="Email" required />
+      <input type="password" placeholder="Password" required />
+      <button class="btn primary full" type="submit">Continue</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="productModal">
+  <div class="modal-card large">
+    <div class="modal-top">
+      <h3 id="detailName">Product</h3>
+      <button class="icon-btn" onclick="closeProduct()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="detail-grid">
+      <img id="detailImg" src="" alt="">
+      <div>
+        <span class="chip" id="detailTag"></span>
+        <p id="detailDesc"></p>
+        <div class="selects">
+          <select id="variantSelect"></select>
+          <select id="sizeSelect">
+            <option>Travel</option>
+            <option>Regular</option>
+            <option>Value Pack</option>
+          </select>
+        </div>
+        <div class="price-line">
+          <div class="price" id="detailPrice">₹0</div>
+          <div class="small">Free delivery over ₹999</div>
+        </div>
+        <button class="btn primary full" id="detailAddBtn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><i class="fa-solid fa-spa"></i> Divine Glow</div>
+    <nav class="menu">
+      <a href="#home">Home</a>
+      <a href="#categories">Categories</a>
+      <a href="#products">Products</a>
+      <a href="#contact">Contact</a>
+      <a href="#admin">Admin</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" onclick="openAuth()"><i class="fa-regular fa-user"></i></button>
+      <button class="icon-btn" onclick="openCart()"><i class="fa-solid fa-bag-shopping"></i><span class="badge" id="cartCount">0</span></button>
+    </div>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-wrap">
+    <div class="hero-text reveal">
+      <span class="tag">Luxury Skincare & Beauty</span>
+      <h1>Premium beauty store with modern luxury vibes.</h1>
+      <p>Discover curated skincare, haircare, bodycare, makeup, and gifting essentials with rich visuals, smooth animations, and full shopping features.</p>
+      <div class="hero-buttons">
+        <button class="btn primary" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
+        <button class="btn ghost" onclick="openAuth()">Login / Signup</button>
+      </div>
+      <div class="mini-stats">
+        <div><strong>10+</strong><span>collections</span></div>
+        <div><strong>100%</strong><span>premium feel</span></div>
+        <div><strong>24/7</strong><span>support</span></div>
+      </div>
+    </div>
+    <div class="hero-visual reveal">
+      <div class="hero-main-img"></div>
+      <div class="hero-side">
+        <div class="side-img one">Glow Kit</div>
+        <div class="side-img two">Herbal Care</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="categories">
+  <div class="section-head">
+    <div><h2>Shop by Category</h2><p>Filter products by category and explore premium collections.</p></div>
+  </div>
+  <div class="pills" id="categoryPills"></div>
+</section>
+
+<section class="section" id="products">
+  <div class="section-head">
+    <div><h2>Featured Products</h2><p>Each product includes multiple variants and sub products.</p></div>
+  </div>
+  <div class="product-grid" id="productGrid"></div>
+</section>
+
+<section class="section" id="contact">
+  <div class="contact-card reveal">
+    <div class="contact-left">
+      <span class="chip">Contact Us</span>
+      <h2>Get in touch with Divine Glow</h2>
+      <p>For orders, support, custom requests, and product help, contact us anytime.</p>
+      <div class="contact-info">
+        <div><i class="fa-solid fa-location-dot"></i> Vadodara, Gujarat, India</div>
+        <div><i class="fa-solid fa-phone"></i> +91 XXXXX XXXXX</div>
+        <div><i class="fa-solid fa-envelope"></i> divineglow@gmail.com</div>
+      </div>
+    </div>
+    <div class="contact-right">
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('Message sent successfully');">
+        <input type="text" placeholder="Your Name" required>
+        <input type="email" placeholder="Email Address" required>
+        <input type="tel" placeholder="Mobile Number" required>
+        <textarea placeholder="Your Message" required></textarea>
+        <button class="btn primary full" type="submit">Send Message</button>
+      </form>
+      <div class="map-box">
+        <iframe src="https://maps.google.com/maps?q=Vadodara&t=&z=13&ie=UTF8&iwloc=&output=embed"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section banner-section">
+  <div class="banner-card reveal">
+    <div>
+      <span class="chip">Best Offer</span>
+      <h2>Luxury bundles inspired by top beauty stores.</h2>
+      <p>Mix and match skincare sets, festive gift boxes, travel minis, and beauty routines built for modern customers.</p>
+      <ul>
+        <li>Premium packaging.</li>
+        <li>Gift-ready combos.</li>
+        <li>Fast cart checkout flow.</li>
+      </ul>
+    </div>
+    <div class="banner-image"></div>
+  </div>
+</section>
+
+<section class="section" id="admin">
+  <div class="admin-grid">
+    <div class="panel reveal">
+      <h3>Monthly Sales</h3>
+      <canvas id="salesChart" height="180"></canvas>
+    </div>
+    <div class="panel reveal">
+      <h3>Recent Orders</h3>
+      <table>
+        <tr><th>Customer</th><th>Product</th><th>Status</th></tr>
+        <tr><td>Aarohi</td><td>Glow Serum</td><td class="status">Delivered</td></tr>
+        <tr><td>Riya</td><td>Rose Cleanser</td><td class="status">Completed</td></tr>
+        <tr><td>Neha</td><td>Festival Glow Box</td><td class="status">Processing</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>Divine Glow — luxury beauty commerce with products, variants, cart, login/signup, contact, and smooth UI.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
